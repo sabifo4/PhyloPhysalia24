@@ -1,0 +1,8 @@
+## PhyloBayes
+
+# Ignore output files and directories created during the practical
+PhylogenyInference/mpi-pb/pb_*
+PhylogenyInference/scripts/__pycache__
+# Ignore tmp and test material
+PhylogenyInference/z_tmp
+PhylogenyInference/test
