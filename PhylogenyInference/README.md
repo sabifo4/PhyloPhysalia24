@@ -78,12 +78,12 @@ c\pi_{T} & e\pi_{C} & f\pi_{A} & .
 
 **Exchange rates**:
 
-$\mathrm{Q=}\left(\begin{array}{cccc}
+$$\mathrm{Q=}\left(\begin{array}{cccc}
 . & a & b & c\\
 a & . & d & e\\
 b & d & . & f\\
 c & e & f & .
-\end{array}\right)$
+\end{array}\right)$$
 
 >> The exchange rates (free parameters) will be the same for all components of the mixture model selected by the user. The example above shows an example under the GTR model, but other matrices are available: `-poi`, `-lg`, `-wag`, `-jtt`, `-mtrev`, `-mtzoa`, `-mtart`, `-rr <filename>`.
 
