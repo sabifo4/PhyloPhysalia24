@@ -166,8 +166,7 @@ Once we have our simulated alignments ready, we can run `PhyloBayes`! We will ca
 
 While yesterday you learnt how to use ML-based approaches to compare different evolutionary models, today you will learn how to use **cross-validation** to do so!
 
-> [!NOTE]
-> We will also run the protein alignment under the LG model given that this was the model under which the data were simulated. Nevertheless, given that there is no similar exchangeability rates for nucleotide data, we decided to run the main model comparison using the GTR model instead.
+First, we will create our working environment:
 
 ```sh
 # Run from `mpi-pb`
@@ -177,7 +176,7 @@ mkdir -p {pb_prot_catgtr,pb_prot_gtr,pb_nuc_catgtr,pb_nuc_gtr,pb_prot_catlg,pb_p
 done
 ```
 
-First, we will access one of the directories we have just created and run one chain under one model:
+Then, we will access one of the directories we have just created and run one chain under one model:
 
 ```sh
 # Run from `mpi-pb`
