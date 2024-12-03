@@ -72,16 +72,17 @@ E.g.: If the GTR model, `-gtr`, was chosen to infer the global exchange rates fr
 $$\mathrm{Q=}\left(\begin{array}{cccc}
 . & a\pi_{C} & b\pi_{A} & c\pi_{G}\\
 a\pi_{T} & . & d\pi_{A} & e\pi_{G}\\
-b\pi_{T} & d\pi_{C} & . & \pi_{G}\\
-c\pi_{T} & e\pi_{C} & \pi_{A} & .
+b\pi_{T} & d\pi_{C} & . & f\pi_{G}\\
+c\pi_{T} & e\pi_{C} & f\pi_{A} & .
 \end{array}\right)$$
 
 **Exchange rates**:
-$\left(\begin{array}{cccc}
-\cdot & a & b & c\\
-a & \cdot & d & e\\
-b & d & \cdot & f\\
-c & e & f & \cdot
+
+$\mathrm{Q=}\left(\begin{array}{cccc}
+. & a & b & c\\
+a & . & d & e\\
+b & d & . & f\\
+c & e & f & .
 \end{array}\right)$
 
 >> The exchange rates (free parameters) will be the same for all components of the mixture model selected by the user. The example above shows an example under the GTR model, but other matrices are available: `-poi`, `-lg`, `-wag`, `-jtt`, `-mtrev`, `-mtzoa`, `-mtart`, `-rr <filename>`.
@@ -94,7 +95,7 @@ $\left[\pi_{A},\pi_{T},\pi_{C},\pi_{G}\right]$
 If we try to put all the information above in one (very simplified!) image...
 
 <p align="center">
- <img width="600" height="300" src="figs/fig1.png">
+ <img width="550" height="300" src="figs/fig1.png">
 </p>
 
 * Some of the models you could try to run in `PhyloBayes` are shown below:
