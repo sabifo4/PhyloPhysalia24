@@ -35,7 +35,7 @@ sp_n
 
 > [!IMPORTANT]
 >
->* Taxa labels (or tag identifiers) may have more than 10 characters (i.e., "relaxed" PHYLIP format), but it is recommended to keep it short
+>* Taxa labels (or tag identifiers) may have more than 10 characters (i.e., "relaxed" PHYLIP format), but it is recommended to keep it short.
 >* At least one space between the tag identifier and the first character of the sequence string is required. In other words, if you put at least one space after the tag identifier, `PhyloBayes` will expect you to start the sequence after such a space!
 >* The following characters will all be considered equivalent to missing data: `-`, `?`, `$`, `.`, `*`, `X`, `x`, as well as the degenerate bases of nucleic acid sequences (`B`, `D`, `H`, `K`, `M`, `N`, `R`, `S`, `V`, `W`, `Y`), and the `B` and `Z` characters for protein sequences.
 
@@ -164,9 +164,7 @@ Once we have our simulated alignments ready, we can run `PhyloBayes`! We will ca
 > * `-d`: option used to specify the path to the input sequence file.
 > * `-x`: the frequency with which the samples are saved can be specified, e.g., `-x 500` would save every 500 samples "forever" or until the chains are stopped. If a second number is included, however, one can also specify the number of samples that are to be collected so that the chains can stop. E.g., `-x 500 20000` would make `PhyloBayes` collect samples every 500 iterations until a total of 20,000 samples are saved, after which the chain will stop.
 
-While yesterday you learnt how to use ML-based approaches to compare different evolutionary models, today you will learn how to use **cross-validation** to do so!
-
-First, we will create our working environment:
+While yesterday you learnt how to use ML-based approaches to compare different evolutionary models, today you will learn how to use **cross-validation** to do so! First, we will create our working environment so that we can have as many directories (folders) as models we are going to be testing:
 
 ```sh
 # Run from `mpi-pb`
@@ -189,9 +187,9 @@ pid=$!
 echo Start job for chain 1 under and PI process $pid > log_pb_prot_catgtr_chain$i"_PID.txt"
 ```
 
-As you can see, by typing the `&` at the end of the command that runs `PhyloBayes`, you can now keep using the terminal while the Bayesian program is running on the background! These analyses are not as quick as those run under a ML-based approach like yesterday (they can take from hours to months, even longer sometimes, to reach convergence), and so we will be using the output files that we have already generated to continue the practical.
+As you can see, by typing the `&` at the end of the command that runs `PhyloBayes`, you can now keep using the terminal while the Bayesian program is running on the background! These analyses are not as quick as those you ran yesterday under a ML-based approach like (they can take from hours to months [even much longer sometimes] to reach convergence), and so we will be using the output files that we have already generated to continue the practical.
 
-If you were to run these analyses, however, you could use the code snippet below -- **please do not run the code below on the server because, if we all do this, we may collapse it!**
+If you were to run these analyses on your own, however, you could use the code snippet below -- **please do not run the code below on the server because, if we all do this, we may collapse it!**
 
 ```sh
 # Run from `mpi-pb`
