@@ -410,9 +410,9 @@ for i in *gz
 do
 printf "\n[[ Extracting file "$i" ]]\n"
 tar -xvf $i
-name=$( echo $i | sed 's/\.tar..*//' )
-mv $name/* ../mpi-pb/$name/
-rm -r $name
+#name=$( echo $i | sed 's/\.tar..*//' )
+#mv $name/* ../mpi-pb/$name/
+#rm -r $name
 done
 ```
 
