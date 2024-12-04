@@ -1,0 +1,11 @@
+wAIC          -8.4735
+mean(ESS)      19.0621
+%(ESS<10)      0.1
+
+LOO-CV        -8.47335
+mean(ESS)      19.0733
+%(ESS<10)      0
+
+note: these are raw point estimates
+to get an estimate of the bias / stdev, at least 2 independent runs are needed
+these can then be post-analysed using the python script pbmpi/scripts/read_loocv_waic.py
