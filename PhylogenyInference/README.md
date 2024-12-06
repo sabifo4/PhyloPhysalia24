@@ -48,7 +48,7 @@ Please note that, even though we have used a 5-taxon tree topology to simulate o
 
 The **CAT (categories) model** was proposed by Lartillot and Philippe ([2004](http://www.atgc-montpellier.fr/download/papers/cat_2004.pdf)) with the aim to relax the assumption that the same substitution process is responsible for how the sites of a protein evolve. The main key points of this model are the following:
 
-* The tendency of each nucleotide or AA to be in a specific site position in a molecular alignment depends on various biological processes (e.g., selective constraints), and thus it is not equal (an assumption made by site-homogenous models). **Linking nucleotide or AA equilibrium frequencies** to the **substitution process** has shown to **reduce systematic errors** in phylogeny inference such as **long-branch attraction** problems, and it is **less prone to underestimate branch lengths**.
+* The tendency of each nucleotide or AA to be in a specific site position in a molecular alignment depends on various biological processes (e.g., selective constraints), and thus it is not equal (an assumption made by site-homogeneous models). **Linking nucleotide or AA equilibrium frequencies** to the **substitution process** has shown to **reduce systematic errors** in phylogeny inference such as **long-branch attraction** problems, and it is **less prone to underestimate branch lengths**.
 
 > [!NOTE]
 > The `CAT` models implemented in `PhyloBayes` can account for among-site compositional heterogeneity when using both nucleotide and protein molecular alignments.
@@ -123,7 +123,7 @@ If we try to put all the information above in one (very simplified!) image...
 </tr>
 <!-- SECOND ROW -->
 <tr>
-<td rowspan="4">Among-site compositional homogeneity</td><td>Poisson</td><td><code>-ncat -poisson</code></td>
+<td rowspan="4">Among-site compositional homogeneouseity</td><td>Poisson</td><td><code>-ncat -poisson</code></td>
 </tr>
 <tr>
 <td>LG, WAG, JTT, MTREV, MTZOA, MTART</td><td><code>-ncat 1 -lg</code>, <code>-ncat 1 -wag</code>, <code>-ncat 1 -jtt</code>, <code>-ncat 1 -mtzoa</code>, <code>-ncat 1 -mtart</code></td>
@@ -155,7 +155,7 @@ If we try to put all the information above in one (very simplified!) image...
 Once we have our simulated alignments ready, we can run `PhyloBayes`! We will carry out the following Bayesian phylogeny inferences with both the protein and back-translated ambiguous nucleotide alignments to see whether we can recover the true phylogeny that we simulated regardless of the type of data:
 
 * `CAT+GTR`: **among-site compositional heterogeneity** is assumed. The exchangeability rates will be based on the GTR model (`-gtr`, exchangeability rates are free parameters and estimated) and a Dirichlet process will be used to infer the frequency profiles across sites (CAT model. `-cat`).
-* `GTR`: **among-site compositional homogeneity** is assumed. The exchangeability rates will be based on the GTR model (`-gtr`, ) and a uniform density will be modelling equilibrium frequency profiles across sites (i.e., `-ncat 1`, one single matrix of profiles for all sites of the alignment).
+* `GTR`: **among-site compositional homogeneouseity** is assumed. The exchangeability rates will be based on the GTR model (`-gtr`, ) and a uniform density will be modelling equilibrium frequency profiles across sites (i.e., `-ncat 1`, one single matrix of profiles for all sites of the alignment).
 
 > [!IMPORTANT]
 > Other commands that we will be using:
@@ -195,12 +195,12 @@ If you were to run these analyses on your own, however, you could use the code s
 # Run from `mpi-pb`
 # Run phylobayes under each model,
 # 4 chains per model
-## A. Protein data + CAT-GTR (heternogenous)
+## A. Protein data + CAT-GTR (heterogeneous)
 cd pb_prot_catgtr
 for i in `seq 1 4`
 do
 cd $i
-mpirun -np 2 pb_mpi -s -d ../../dat/prot_aln.phy -cat -gtr -x 10 10000 mpi_prot_catgtr_run$i &
+mpirun -np 2 pb_mpi -d ../../dat/prot_aln.phy -cat -gtr -x 10 10000 mpi_prot_catgtr_run$i &
 pid=$!
 if [[ $i -eq 1 ]]
 then
@@ -210,12 +210,12 @@ echo Start job for chain $i under and PI process $pid >> log_pb_prot_catgtr_chai
 fi
 cd ../
 done
-## B. Protein data + GTR (homogenous)
+## B. Protein data + GTR (homogeneous)
 cd ../pb_prot_gtr
 for i in `seq 1 4`
 do
 cd $i
-mpirun -np 2 pb_mpi -s -d ../../dat/prot_aln.phy -ncat 1 -gtr -x 10 10000 mpi_prot_gtr_run$i &
+mpirun -np 2 pb_mpi -d ../../dat/prot_aln.phy -ncat 1 -gtr -x 10 10000 mpi_prot_gtr_run$i &
 pid=$!
 if [[ $i -eq 1 ]]
 then
@@ -230,7 +230,7 @@ cd ../pb_nuc_catgtr
 for i in `seq 1 4`
 do
 cd $i
-mpirun -np 2 pb_mpi -s -d ../../dat/nuc_aln.phy -cat -gtr -x 10 10000 mpi_nuc_catgtr_run$i &
+mpirun -np 2 pb_mpi -d ../../dat/nuc_aln.phy -cat -gtr -x 10 10000 mpi_nuc_catgtr_run$i &
 pid=$!
 if [[ $i -eq 1 ]]
 then
@@ -240,12 +240,12 @@ echo Start job for chain $i under and PI process $pid >> log_pb_nuc_catgtr_chain
 fi
 cd ../
 done
-## D. Back-translated ambiguous nucleotide data + GTR (homogenous)
+## D. Back-translated ambiguous nucleotide data + GTR (homogeneous)
 cd ../pb_nuc_gtr
 for i in `seq 1 4`
 do
 cd $i
-mpirun -np 2 pb_mpi -s -d ../../dat/nuc_aln.phy -ncat 1 -gtr -x 10 10000 mpi_nuc_gtr_run$i &
+mpirun -np 2 pb_mpi -d ../../dat/nuc_aln.phy -ncat 1 -gtr -x 10 10000 mpi_nuc_gtr_run$i &
 pid=$!
 if [[ $i -eq 1 ]]
 then
@@ -255,12 +255,12 @@ echo Start job for chain $i under and PI process $pid >> log_pb_nuc_gtr_chain$i"
 fi
 cd ../
 done
-## E. Protein data + CAT-LG (heternogenous)
+## E. Protein data + CAT-LG (heterogeneous)
 cd ../pb_prot_catlg
 for i in `seq 1 4`
 do
 cd $i
-mpirun -np 2 pb_mpi -s -d ../../dat/prot_aln.phy -cat -lg -x 10 10000 mpi_prot_cat_lg_run$i &
+mpirun -np 2 pb_mpi -d ../../dat/prot_aln.phy -cat -lg -x 10 10000 mpi_prot_cat_lg_run$i &
 pid=$!
 if [[ $i -eq 1 ]]
 then
@@ -270,12 +270,12 @@ echo Start job for chain $i under and PI process $pid >> log_pb_prot_catlg_chain
 fi
 cd ../
 done
-## F. Protein data + LG (homogenous)
+## F. Protein data + LG (homogeneous)
 cd ../pb_prot_lg
 for i in `seq 1 4`
 do
 cd $i
-mpirun -np 2 pb_mpi -s -d ../../dat/prot_aln.phy -ncat 1 -lg -x 10 10000 mpi_prot_lg_run$i &
+mpirun -np 2 pb_mpi -d ../../dat/prot_aln.phy -ncat 1 -lg -x 10 10000 mpi_prot_lg_run$i &
 pid=$!
 if [[ $i -eq 1 ]]
 then
@@ -303,7 +303,7 @@ mkdir -p {pb_prot_catgtr,pb_prot_gtr,pb_nuc_catgtr,pb_nuc_gtr,pb_prot_catlg,pb_p
 done
 # Run phylobayes under each model,
 # 4 chains per model
-## A. Protein data + CAT-GTR (heternogenous)
+## A. Protein data + CAT-GTR (heterogeneous)
 cd pb_prot_catgtr
 for i in `seq 1 4`
 do
@@ -312,13 +312,13 @@ pb -s -d ../../dat/prot_aln.phy -cat -gtr -x 10 10000 prot_catgtr_run$i &
 pid=$!
 if [[ $i -eq 1 ]]
 then
-echo Start job for chain $i under and PI process $pid > log_pb_prot_catgtr_chain$i"_PID.txt"
+echo Start job for chain $i under prot_catgtr and PI process $pid > log_pb_prot_catgtr_chain$i"_PID.txt"
 else
-echo Start job for chain $i under and PI process $pid >> log_pb_prot_catgtr_chain$i"_PID.txt"
+echo Start job for chain $i under prot_catgtr and PI process $pid >> log_pb_prot_catgtr_chain$i"_PID.txt"
 fi
 cd ../
 done
-## B. Protein data + GTR (homogenous)
+## B. Protein data + GTR (homogeneous)
 cd ../pb_prot_gtr
 for i in `seq 1 4`
 do
@@ -327,9 +327,9 @@ pb -s -d ../../dat/prot_aln.phy -ncat 1 -gtr -x 10 10000 prot_gtr_run$i &
 pid=$!
 if [[ $i -eq 1 ]]
 then
-echo Start job for chain $i under and PI process $pid > log_pb_prot_gtr_chain$i"_PID.txt"
+echo Start job for chain $i under prot_gtr and PI process $pid > log_pb_prot_gtr_chain$i"_PID.txt"
 else
-echo Start job for chain $i under and PI process $pid >> log_pb_prot_gtr_chain$i"_PID.txt"
+echo Start job for chain $i under prot_gtr and PI process $pid >> log_pb_prot_gtr_chain$i"_PID.txt"
 fi
 cd ../
 done
@@ -342,13 +342,13 @@ pb -s -d ../../dat/nuc_aln.phy -cat -gtr -x 10 10000 nuc_catgtr_run$i &
 pid=$!
 if [[ $i -eq 1 ]]
 then
-echo Start job for chain $i under and PI process $pid > log_pb_nuc_catgtr_chain$i"_PID.txt"
+echo Start job for chain $i under nuc_catgtr and PI process $pid > log_pb_nuc_catgtr_chain$i"_PID.txt"
 else
-echo Start job for chain $i under and PI process $pid >> log_pb_nuc_catgtr_chain$i"_PID.txt"
+echo Start job for chain $i under nuc_catgtr and PI process $pid >> log_pb_nuc_catgtr_chain$i"_PID.txt"
 fi
 cd ../
 done
-## D. Back-translated ambiguous nucleotide data + GTR (homogenous)
+## D. Back-translated ambiguous nucleotide data + GTR (homogeneous)
 cd ../pb_nuc_gtr
 for i in `seq 1 4`
 do
@@ -357,13 +357,13 @@ pb -s -d ../../dat/nuc_aln.phy -ncat 1 -gtr -x 10 10000 nuc_gtr_run$i &
 pid=$!
 if [[ $i -eq 1 ]]
 then
-echo Start job for chain $i under and PI process $pid > log_pb_nuc_gtr_chain$i"_PID.txt"
+echo Start job for chain $i under nuc_gtr and PI process $pid > log_pb_nuc_gtr_chain$i"_PID.txt"
 else
-echo Start job for chain $i under and PI process $pid >> log_pb_nuc_gtr_chain$i"_PID.txt"
+echo Start job for chain $i under nuc_gtr and PI process $pid >> log_pb_nuc_gtr_chain$i"_PID.txt"
 fi
 cd ../
 done
-## E. Protein data + CAT-LG (heternogenous)
+## E. Protein data + CAT-LG (heterogeneous)
 cd ../pb_prot_catlg
 for i in `seq 1 4`
 do
@@ -372,13 +372,13 @@ pb -s -d ../../dat/prot_aln.phy -cat -lg -x 10 10000 prot_catlg_run$i &
 pid=$!
 if [[ $i -eq 1 ]]
 then
-echo Start job for chain $i under and PI process $pid > log_pb_prot_catlg_chain$i"_PID.txt"
+echo Start job for chain $i under prot_catlg and PI process $pid > log_pb_prot_catlg_chain$i"_PID.txt"
 else
-echo Start job for chain $i under and PI process $pid >> log_pb_prot_catlg_chain$i"_PID.txt"
+echo Start job for chain $i under prot_catlg and PI process $pid >> log_pb_prot_catlg_chain$i"_PID.txt"
 fi
 cd ../
 done
-## F. Protein data + LG (homogenous)
+## F. Protein data + LG (homogeneous)
 cd ../pb_prot_lg
 for i in `seq 1 4`
 do
@@ -387,9 +387,9 @@ pb -s -d ../../dat/prot_aln.phy -ncat 1 -lg -x 10 10000 prot_lg_run$i &
 pid=$!
 if [[ $i -eq 1 ]]
 then
-echo Start job for chain $i under and PI process $pid > log_pb_prot_lg_chain$i"_PID.txt"
+echo Start job for chain $i under prot_lg and PI process $pid > log_pb_prot_lg_chain$i"_PID.txt"
 else
-echo Start job for chain $i under and PI process $pid >> log_pb_prot_lg_chain$i"_PID.txt"
+echo Start job for chain $i under prot_lg and PI process $pid >> log_pb_prot_lg_chain$i"_PID.txt"
 fi
 cd ../
 done
@@ -529,9 +529,9 @@ done
 
 ----
 
-## Model selection
+## Model selection: LOO-CV and wAIC scores
 
-We are going to compare the various models we have ran for each dataset (i.e., 4 model for protein data and 2 models for nucleotide data) by conducting a "leave-one-out" cross-validation (LOO-CV) approach. Please note that, for large datasets, this approach may be too computationally demanding, and so other methods such as the widely applicable information criterion (wAIC) could be used instead -- such a score seems to give good enough approximations for datasets with > 4,000 sites.
+We are going to compare the various models we have ran for each dataset (i.e., 4 models for protein data and 2 models for nucleotide data) by conducting a "leave-one-out" cross-validation (LOO-CV) approach. Please note that, for large datasets, this approach may be too computationally demanding, and so other methods such as the widely applicable information criterion (wAIC) could be used instead -- such a score seems to give good enough approximations for datasets with > 4,000 sites.
 
 Our dataset is relatively small, so we will obtain both the LOO-CV and wAIC scores. If the MCMC seems to have reached convergence and have large enough ESS VALUES based on the stats given by `tracecomp`, both scores should be equally reliable!
 
@@ -542,7 +542,7 @@ Firstly, we will run the in-built program `readpb_mpi` to calculate the site log
 # Run model comparison under each model
 # with each data type
 ## PROTEIN DATA
-### A. Protein data + CAT-GTR (heternogenous)
+### A. Protein data + CAT-GTR (heterogeneous)
 cd pb_prot_catgtr/1
 mpirun -np 2 readpb_mpi -x 100 10 -sitelogl mpi_prot_catgtr_run1 &
 pid=$!
@@ -550,8 +550,8 @@ echo Start job for chain 1 and PI process $pid > log_pbmodsel_prot_catgtr_chain1
 cd ../2
 mpirun -np 2 readpb_mpi -x 100 10 -sitelogl mpi_prot_catgtr_run2 &
 pid=$!
-echo Start job for chain 1 and PI process $pid > log_pbmodsel_prot_catgtr_chain2_PID.txt
-### B. Protein data + GTR (homogenous)
+echo Start job for chain 2 and PI process $pid > log_pbmodsel_prot_catgtr_chain2_PID.txt
+### B. Protein data + GTR (homogeneous)
 cd ../../pb_prot_gtr/1
 mpirun -np 2 readpb_mpi -x 100 10 -sitelogl mpi_prot_gtr_run1 &
 pid=$!
@@ -559,8 +559,8 @@ echo Start job for chain 1 and PI process $pid > log_pbmodsel_prot_gtr_chain1_PI
 cd ../2
 mpirun -np 2 readpb_mpi -x 100 10 -sitelogl mpi_prot_gtr_run2 &
 pid=$!
-echo Start job for chain 1 and PI process $pid > log_pbmodsel_prot_gtr_chain2_PID.txt
-### C. Protein data + CAT-LG (heternogenous)
+echo Start job for chain 2 and PI process $pid > log_pbmodsel_prot_gtr_chain2_PID.txt
+### C. Protein data + CAT-LG (hetergeneous)
 cd ../../pb_prot_catlg/1
 mpirun -np 2 readpb_mpi -x 100 10 -sitelogl mpi_prot_cat_lg_run1 &
 pid=$!
@@ -568,8 +568,8 @@ echo Start job for chain 1 and PI process $pid > log_pbmodsel_prot_catlg_chain1_
 cd ../2
 mpirun -np 2 readpb_mpi -x 100 10 -sitelogl mpi_prot_cat_lg_run2 &
 pid=$!
-echo Start job for chain 1 and PI process $pid > log_pbmodsel_prot_catlg_chain2_PID.txt
-### D. Protein data + LG (homogenous)
+echo Start job for chain 2 and PI process $pid > log_pbmodsel_prot_catlg_chain2_PID.txt
+### D. Protein data + LG (homogeneous)
 cd ../../pb_prot_lg/1
 mpirun -np 2 readpb_mpi -x 100 10 -sitelogl mpi_prot_lg_run1 &
 pid=$!
@@ -577,7 +577,7 @@ echo Start job for chain 1 and PI process $pid > log_pbmodsel_prot_lg_chain1_PID
 cd ../2
 mpirun -np 2 readpb_mpi -x 100 10 -sitelogl mpi_prot_lg_run2 &
 pid=$!
-echo Start job for chain 1 and PI process $pid > log_pbmodsel_prot_lg_chain2_PID.txt
+echo Start job for chain 2 and PI process $pid > log_pbmodsel_prot_lg_chain2_PID.txt
 ## NUCLEOTIDE DATA
 ### A. Back-translated ambiguous nucleotide data + CAT-GTR (heterogenous)
 cd ../../pb_nuc_catgtr/1
@@ -587,8 +587,8 @@ echo Start job for chain 1 and PI process $pid > log_pbmodsel_nuc_catgtr_chain1_
 cd ../2
 mpirun -np 2 readpb_mpi -x 100 10 -sitelogl mpi_nuc_catgtr_run2 &
 pid=$!
-echo Start job for chain 1 and PI process $pid > log_pbmodsel_nuc_catgtr_chain2_PID.txt
-### B. Back-translated ambiguous nucleotide data + GTR (homogenous)
+echo Start job for chain 2 and PI process $pid > log_pbmodsel_nuc_catgtr_chain2_PID.txt
+### B. Back-translated ambiguous nucleotide data + GTR (homogeneous)
 cd ../../pb_nuc_gtr/1
 mpirun -np 2 readpb_mpi -x 100 10 -sitelogl mpi_nuc_gtr_run1 &
 pid=$!
@@ -596,7 +596,7 @@ echo Start job for chain 1 and PI process $pid > log_pbmodsel_nuc_gtr_chain1_PID
 cd ../2
 mpirun -np 2 readpb_mpi -x 100 10 -sitelogl mpi_nuc_gtr_run2 &
 pid=$!
-echo Start job for chain 1 and PI process $pid > log_pbmodsel_nuc_catgtr_chain2_PID.txt
+echo Start job for chain 2 and PI process $pid > log_pbmodsel_nuc_catgtr_chain2_PID.txt
 cd ../
 ```
 
@@ -733,3 +733,138 @@ Based on what we have done today and what we have been discussing so far during 
 <hr>
 <br>
 Hope you have enjoyed today's Bayesian phylogeny inference practical and... See you on Friday to learn more about Bayesian timetree inference with `MCMCtree`!
+<br>
+<br>
+----
+
+## Model selection: marginal likelihoods and Bayes factors
+
+During days 3 and 4, you have learnt more about marginal likelihood and Bayes factors. Below you can find some examples about how you estimate the marginal likelihood under each model with `PhyloBayes`!
+
+### Computing the marginal likleihood with `PhyloBayes`
+
+Given that we have already run `PhyloBayes` under all our competing models, we can now run the in-house program `readpb_mpi` with option `-posthyper` instead of `-sitelogl` to get posterior estimates that `PhyloBayes` will subsequently use to make a reference distribution. The current version will use sequential importance sampling (sIS)
+
+```sh
+# Run from `mpi-pb`
+# Run model comparison under each model
+# with each data type
+## PROTEIN DATA
+### A. Protein data + CAT-GTR (heterogeneous)
+cd pb_prot_catgtr/1
+mpirun -np 2 readpb_mpi -x 100 1 -posthyper mpi_prot_catgtr_run1 &
+pid=$!
+echo Start job for chain 1 and PI process $pid > log_pbmodsel_prot_catgtr_chain1_PID.txt
+mpirun -np 2 pb_mpi -f -d ../../dat/prot_aln.phy -cat -gtr -self_tuned_sis 1 10 30 0.1 1000 -emp_ref mpi_prot_catgtr_run1.posthyper mpi_prot_catgtr_run1_sis1 &
+pid=$!
+echo Start job for chain 1 and PI process $pid > log_pbmodsel_prot_catgtr_chain1_sis1_PID.txt
+cd ../2
+mpirun -np 2 readpb_mpi -x 100 1 -posthyper mpi_prot_catgtr_run2 &
+pid=$!
+echo Start job for chain 2 and PI process $pid > log_pbmodsel_prot_catgtr_chain2_PID.txt
+mpirun -np 2 pb_mpi -f -d ../../dat/prot_aln.phy -cat -gtr -self_tuned_sis 1 10 30 0.1 1000 -emp_ref mpi_prot_catgtr_run2.posthyper mpi_prot_catgtr_run2_sis2 &
+pid=$!
+echo Start job for chain 1 and PI process $pid > log_pbmodsel_prot_catgtr_chain2_sis2_PID.txt
+### B. Protein data + GTR (homogeneous)
+cd ../../pb_prot_gtr/1
+mpirun -np 2 readpb_mpi -x 100 1 -posthyper mpi_prot_gtr_run1 &
+pid=$!
+echo Start job for chain 1 and PI process $pid > log_pbmodsel_prot_gtr_chain1_PID.txt
+mpirun -np 2 pb_mpi -f -d ../../dat/prot_aln.phy -ncat 1 -gtr -self_tuned_sis 1 10 30 0.1 1000 -emp_ref mpi_prot_gtr_run1.posthyper mpi_prot_gtr_run1_sis1 &
+pid=$!
+echo Start job for chain 1 and PI process $pid > log_pbmodsel_prot_gtr_chain1_sis1_PID.txt
+cd ../2
+mpirun -np 2 readpb_mpi -x 100 1 -posthyper mpi_prot_gtr_run2 &
+pid=$!
+echo Start job for chain 2 and PI process $pid > log_pbmodsel_prot_gtr_chain2_PID.txt
+mpirun -np 2 pb_mpi -f -d ../../dat/prot_aln.phy -ncat 1 -gtr -self_tuned_sis 1 10 30 0.1 1000 -emp_ref mpi_prot_gtr_run2.posthyper mpi_prot_gtr_run2_sis2 &
+pid=$!
+echo Start job for chain 1 and PI process $pid > log_pbmodsel_prot_gtr_chain2_sis2_PID.txt
+### C. Protein data + CAT-LG (heterogeneous)
+cd ../../pb_prot_catlg/1
+mpirun -np 2 readpb_mpi -x 100 1 -posthyper mpi_prot_cat_lg_run1 &
+pid=$!
+echo Start job for chain 1 and PI process $pid > log_pbmodsel_prot_catlg_chain1_PID.txt
+mpirun -np 2 pb_mpi -f -d ../../dat/prot_aln.phy -cat -lg -self_tuned_sis 1 10 30 0.1 1000 -emp_ref mpi_prot_cat_lg_run1.posthyper mpi_prot_cat_lg_run1_sis1 &
+pid=$!
+echo Start job for chain 1 and PI process $pid > log_pbmodsel_prot_cat_lg_chain1_sis1_PID.txt
+cd ../2
+mpirun -np 2 readpb_mpi -x 100 1 -posthyper mpi_prot_cat_lg_run2 &
+pid=$!
+echo Start job for chain 2 and PI process $pid > log_pbmodsel_prot_catlg_chain2_PID.txt
+mpirun -np 2 pb_mpi -f -d ../../dat/prot_aln.phy -cat -lg -self_tuned_sis 1 10 30 0.1 1000 -emp_ref mpi_prot_cat_lg_run2.posthyper mpi_prot_cat_lg_run2_sis2 &
+pid=$!
+echo Start job for chain 1 and PI process $pid > log_pbmodsel_prot_cat_lg_chain2_sis2_PID.txt
+### D. Protein data + LG (homogeneous)
+cd ../../pb_prot_lg/1
+mpirun -np 2 readpb_mpi -x 100 1 -posthyper mpi_prot_lg_run1 &
+pid=$!
+echo Start job for chain 1 and PI process $pid > log_pbmodsel_prot_lg_chain1_PID.txt
+mpirun -np 2 pb_mpi -f -d ../../dat/prot_aln.phy -ncat 1 -lg -self_tuned_sis 1 10 30 0.1 1000 -emp_ref mpi_prot_lg_run1.posthyper mpi_prot_lg_run1_sis1 &
+pid=$!
+echo Start job for chain 1 and PI process $pid > log_pbmodsel_prot_lg_chain1_sis1_PID.txt
+cd ../2
+mpirun -np 2 readpb_mpi -x 100 1 -posthyper mpi_prot_lg_run2 &
+pid=$!
+echo Start job for chain 2 and PI process $pid > log_pbmodsel_prot_lg_chain2_PID.txt
+mpirun -np 2 pb_mpi -f -d ../../dat/prot_aln.phy -ncat 1 -lg -self_tuned_sis 1 10 30 0.1 1000 -emp_ref mpi_prot_lg_run2.posthyper mpi_prot_lg_run2_sis2 &
+pid=$!
+echo Start job for chain 1 and PI process $pid > log_pbmodsel_prot_lg_chain2_sis2_PID.txt
+## NUCLEOTIDE DATA
+### A. Back-translated ambiguous nucleotide data + CAT-GTR (heterogenous)
+cd ../../pb_nuc_catgtr/1
+mpirun -np 2 readpb_mpi -x 100 1 -posthyper mpi_nuc_catgtr_run1 &
+pid=$!
+echo Start job for chain 1 and PI process $pid > log_pbmodsel_nuc_catgtr_chain1_PID.txt
+mpirun -np 2 pb_mpi -f -d ../../dat/nuc_aln.phy -cat -gtr -self_tuned_sis 1 10 30 0.1 1000 -emp_ref mpi_nuc_catgtr_run1.posthyper mpi_nuc_catgtr_run1_sis1 &
+pid=$!
+echo Start job for chain 1 and PI process $pid > log_pbmodsel_nuc_catgtr_chain1_sis1_PID.txt
+cd ../2
+mpirun -np 2 readpb_mpi -x 100 1 -posthyper mpi_nuc_catgtr_run2 &
+pid=$!
+echo Start job for chain 2 and PI process $pid > log_pbmodsel_nuc_catgtr_chain2_PID.txt
+mpirun -np 2 pb_mpi -f -d ../../dat/nuc_aln.phy -cat -gtr -self_tuned_sis 1 10 30 0.1 1000 -emp_ref mpi_nuc_catgtr_run2.posthyper mpi_nuc_catgtr_run2_sis2 &
+pid=$!
+echo Start job for chain 1 and PI process $pid > log_pbmodsel_nuc_catgtr_chain2_sis2_PID.txt
+### B. Back-translated ambiguous nucleotide data + GTR (homogeneous)
+cd ../../pb_nuc_gtr/1
+mpirun -np 2 readpb_mpi -x 100 1 -posthyper mpi_nuc_gtr_run1 &
+pid=$!
+echo Start job for chain 1 and PI process $pid > log_pbmodsel_nuc_gtr_chain1_PID.txt
+mpirun -np 2 pb_mpi -f -d ../../dat/nuc_aln.phy -ncat 1 -gtr -self_tuned_sis 1 10 30 0.1 1000 -emp_ref mpi_nuc_gtr_run1.posthyper mpi_nuc_gtr_run1_sis1 &
+pid=$!
+echo Start job for chain 1 and PI process $pid > log_pbmodsel_nuc_gtr_chain1_sis1_PID.txt
+cd ../2
+mpirun -np 2 readpb_mpi -x 100 1 -posthyper mpi_nuc_gtr_run2 &
+pid=$!
+echo Start job for chain 2 and PI process $pid > log_pbmodsel_nuc_catgtr_chain2_PID.txt
+mpirun -np 2 pb_mpi -f -d ../../dat/nuc_aln.phy -ncat 1 -gtr -self_tuned_sis 1 10 30 0.1 1000 -emp_ref mpi_nuc_gtr_run2.posthyper mpi_nuc_gtr_run2_sis2 &
+pid=$!
+echo Start job for chain 1 and PI process $pid > log_pbmodsel_nuc_gtr_chain2_sis2_PID.txt
+cd ../
+```
+
+> [!NOTE]
+> We have followed the same tuning options as those specified in the `PhyloBayes` manual for option `-emp_ref`:
+>
+> * `1`: tune one site a time.
+> * `10`: burn-in after a new site has been added, `10` is a small number so the burn-in is short.
+> * `30`: $K_{min}$, minimum number of iterations used to estimate how many cycles will be required to run for a good approximation.
+> * `0.1`: $v_{0}$, target variance.
+> * `1000`: $K_{max}$, maximum number of iterations the algorithm would likely run for.
+>
+> Therefore, the first 10 iterations will be discarded, then the following 30 iterations will be used to compute an estimate of the site log likelihood variance. Following the `PhyloBayes` manual, the number of iterations required to run will be calculated based on $K_{i}=min(K_{min}^{e^{v-v0}},K_{max})$. The final number of iterations will be $K_{i}$, and thus a total of $K_{i}$ log likelihood values will be used to compute the site-specific importance sampling estimate.
+
+The commands above, once they finish, will generate two output files for each chain ran under the various competing evolutionary model we are testing: `*_sis1.stepping` and `*_sis2.stepping`. We will use the `PhyloBayes` in-house python script [`read_marglikelihood.py`](scripts/read_marglikelihood.py) to compute the site-specific scores, the mean score, the bias, and the error to estimate the marginal likelihoods:
+
+```sh
+# Run from `mpi-pb`
+## Summarise all analyses
+for i in pb_*
+do
+cd $i
+printf "\n[[ Results for analysis in directory "$i" ]]\n"
+python3 ../../scripts/read_marglikelihood.py */*_sis*.stepping
+cd ../
+done
+```
