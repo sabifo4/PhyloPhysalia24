@@ -316,6 +316,24 @@ As you can see, the following nodes were calibrated:
 * `t_n9`: last common ancestor of great apes (all taxa but gibbon), node constrained with soft bound `B(.12,.16)` (minimum age = .12, maximum age = .16; time unit = 100 Mya | 12 - 16 Mya)
 * `t_n11`: last common ancestor of human, chimpanzee, and bonobo; node constrained with soft bound `B(.06,.08)` (minimum age = .06, maximum age = .08; time unit = 100 Mya | 8 Mya).
 
+If you wanted to plot the calibration densities (those we specified in the tree file to constrain the) and see how they look like, you can use the `mcmc3r` R package to do so!
+
+```r
+# Open R on RStudio and, if you have already
+# installed the `mcmc3r` R package you
+# can run the following commands
+#
+##> Plot the upper-bound calibration for the root
+curve(mcmc3r::dU(x, tU = 1.0), n=5e2, from=0, to=1.1)
+##> Plot the soft-bound calibration for node 9, LCA of great apes
+curve(mcmc3r::dB(x, tL = .12, tU = .16), n=5e2, from=0, to=.2)
+##> Plot the soft-bound calibration for node 9, LCA of great apes
+curve(mcmc3r::dB(x, tL = .06, tU = .08), n=5e2, from=0, to=.1)
+```
+
+> [!NOTE]
+> The plots above can be very useful to visualise how your prior/s to constrain node ages look/s like! This type of distribution is the "calibration density", although you can also find researchers in the literature referring to these distributions as the "user-specified" prior/s.
+
 ### Main MCMC diagnostics
 
 Now that we have the output files from the different MCMC runs in an organised file structure, we are ready to run MCMC diagnostics! We will start by analysing the samples we collected when sampling from the prior and then, if there are no problems, we will proceed to analyse those collected when sampling took place from the posterior as the target distribution.
