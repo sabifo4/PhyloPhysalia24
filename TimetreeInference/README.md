@@ -15,7 +15,7 @@ As explained in [Yang et al. (1998)](https://academic.oup.com/mbe/article/15/12/
 * Human (_Homo sapiens_, D38112)
 * Common chimpanzee (_Pan troglodytes_, D38113)
 * Bonobo (_Pan paniscus_, D38116)
-* Gorilla (_Gorilla gorilla, D38114)
+* Gorilla (_Gorilla gorilla_, D38114)
 * Bornean orangutan (_Pongo pygmaeus pygmaeus_, D38115)
 * Sumatran orangutan (_Pongo pygmaeus abelii_, X97707)
 * Common gibbon (_Hylobates lar_, X99256).
@@ -25,7 +25,7 @@ Please note that we have changed the calibration notation in [our tree file](00_
 We have saved the input tree and sequence files in directory [`00_inp_data`](00_inp_data). We used the [available control file](https://github.com/abacus-gene/paml/blob/master/examples/DatingSoftBound/mcmctree.ctl) as a template to create our [own template control files for today's analyses](01_ctl_files), which follow the formatting recommended to use in the latest `PAML` release.
 
 > [!NOTE]
-> We have also included an alignment with the first two codon positions of the back-translated unambiguous nucleotide alignment ([mtCHANpri_nuc.phy`](00_inp_data/mtCDNApri_nuc.phy)) based on the original partitioned alignment in the [`PAML` GitHub repository](https://github.com/abacus-gene/paml/blob/master/examples/DatingSoftBound/mtCDNApri123.txt). If we have time, we will explain how to analyse a partitioned dataset but, to keep things simple first, we shall proceed with a concatenated alignment.
+> We have also included an alignment with the first two codon positions of the back-translated unambiguous nucleotide alignment ([`mtCDNApri_nuc.phy`](00_inp_data/mtCDNApri_nuc.phy)) based on the original partitioned alignment in the [`PAML` GitHub repository](https://github.com/abacus-gene/paml/blob/master/examples/DatingSoftBound/mtCDNApri123.txt). If we have time, we will explain how to analyse a partitioned dataset but, to keep things simple first, we shall proceed with a concatenated alignment.
 
 ## Analyses with `PAML` programs
 
@@ -316,7 +316,7 @@ As you can see, the following nodes were calibrated:
 * `t_n9`: last common ancestor of great apes (all taxa but gibbon), node constrained with soft bound `B(.12,.16)` (minimum age = .12, maximum age = .16; time unit = 100 Mya | 12 - 16 Mya)
 * `t_n11`: last common ancestor of human, chimpanzee, and bonobo; node constrained with soft bound `B(.06,.08)` (minimum age = .06, maximum age = .08; time unit = 100 Mya | 8 Mya).
 
-### Basic MCMC diagnostics
+### Main MCMC diagnostics
 
 Now that we have the output files from the different MCMC runs in an organised file structure, we are ready to run MCMC diagnostics! We will start by analysing the samples we collected when sampling from the prior and then, if there are no problems, we will proceed to analyse those collected when sampling took place from the posterior as the target distribution.
 
@@ -460,11 +460,11 @@ We could also plot our marginal densities against our posterior time densities u
 
 <p align="center">
 <img width="200" height="150" src="figs/Root_GBM-ILN-NODAT.jpg">
-<img width="200" height="150" src="figs/tn9_GBM-ILN-NODAT.JPG">
+<img width="200" height="150" src="figs/tn9_GBM-ILN-NODAT.jpg">
 <img width="200" height="150" src="figs/tn10_GBM-ILN-NODAT.jpg">
-<img width="200" height="150" src="figs/tn11_GBM-ILN-NODAT.JPG">
+<img width="200" height="150" src="figs/tn11_GBM-ILN-NODAT.jpg">
 <img width="200" height="150" src="figs/tn12_GBM-ILN-NODAT.jpg">
-<img width="200" height="150" src="figs/tn13_GBM-ILN-NODAT.JPG">
+<img width="200" height="150" src="figs/tn13_GBM-ILN-NODAT.jpg">
 </p>
 
 It seems that there are no problematic chains when we ran `MCMCtree` with our data, and the data seem informative enough given that the posterior densities are more concentrated than the marginal densities and within these densities. In addition, the traces and th convergence plots seem to show that all the chains have converged to the same target distribution under each model, respectively. Consequently, we can concatenate all the samples collected across the chains in a unique file for each clock, respectively:
@@ -621,7 +621,7 @@ cp -R plots/ESS_and_chains_convergence/*prior*pdf sum_files_prior/
 cp -R plots/margVScalib sum_files_prior/
 ```
 
-#### Posterior (EXTRA)
+#### Posterior (extra)
 
 Now it is time to analyse the samples we collected when running `MCMCtree` with our data!
 
