@@ -20,7 +20,7 @@ setwd( scripts_dir )
 # a directory called `scripts`. We will remove this part from 
 # the path to find our home directory
 scripts_dir
-home_dir <- gsub( pattern = "03_MCMCdiagnostics/scripts",
+home_dir <- gsub( pattern = "03_ExtraMCMCdiagnostics/scripts",
                   replacement = "02_PAML/", x = scripts_dir )
 out_dir  <- gsub( pattern = "scripts", replacement = "", x = scripts_dir )
 # Load main script with all functions required below
@@ -103,7 +103,7 @@ delcol_prior <- c( 1 )
 num_dirs   <- 1
 path_prior <- vector( mode = "character", length = c( length( dat ) ) )
 for( i in 1:c( length( dat ) ) ){
-  path_prior[i] <- paste( home_dir, "01_MCMCtree/00_prior/mcmc_files_",
+  path_prior[i] <- paste( home_dir, "/01_MCMCtree/00_prior/mcmc_files_",
                           dat[i], "_NODAT/", sep = "" )
 }
 

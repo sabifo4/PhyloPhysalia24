@@ -49,7 +49,7 @@ setwd( scripts_dir )
 # 1. Label the file with calibrations. If you have tested different calibrations
 # and have more than one file with the corresponding calibrations, give as 
 # many labels as files you have.
-dat <- c( "mtcDNApri" )
+dat <- c( "mtcdnapri" )
 
 # 2. Number of divergence times that have been estimated. One trick to find
 # this out quickly is to subtract 1 to the number of species. In this case,
