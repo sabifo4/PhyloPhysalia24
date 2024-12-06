@@ -6,3 +6,12 @@ PhylogenyInference/scripts/__pycache__
 # Ignore tmp and test material
 PhylogenyInference/z_tmp
 PhylogenyInference/test
+
+## PAML
+
+# Ignore output files and directories created during the practical
+TimetreeInference/02_PAML/00_CODEML
+TimetreeInference/02_PAML/01_MCMCtree
+TimetreeInference/03_ExtraMCMCdiagnostics/out_*
+TimetreeInference/03_ExtraMCMCdiagnostics/plots
+TimetreeInference/03_ExtraMCMCdiagnostics/sum_*
