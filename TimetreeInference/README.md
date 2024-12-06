@@ -368,9 +368,13 @@ It seems that there are no problematic chains and, given that all the chains see
 # Please change directories until
 # you are there. Then, run the following
 # commands.
+chmod 775 *sh
 cp Combine_MCMC.sh ../01_MCMCtree/00_prior
 # One argument taken: number of chains
 cd ../01_MCMCtree/00_prior
+# Change permissions in case you still
+# do not have them
+chmod 775 *sh
 ## Variables needed
 ## arg1 --> path to directory where analyses have taken place (e.g., CLK, GBM, ILN)
 ## arg2 --> output dir: mcmc_files_CLK, mcmc_files_GBM, mcmc_files_ILN, etc.
@@ -496,6 +500,9 @@ It seems that there are no problematic chains when we ran `MCMCtree` with our da
 cp Combine_MCMC.sh ../01_MCMCtree/01_posterior
 # One argument taken: number of chains
 cd ../01_MCMCtree/01_posterior
+# Change permissions in case there are 
+# still problems
+chmod 775 *sh
 ## Variables needed
 ## arg1 --> path to directory where analyses have taken place (e.g., CLK, GBM, ILN)
 ## arg2 --> output dir: mcmc_files_CLK, mcmc_files_GBM, mcmc_files_ILN, etc.
@@ -608,6 +615,8 @@ We will run our in-house R script [`MCMC_diagnostics_prior_terminal.R`](03_Extra
 ## Run from `03_ExtraMCMCdiagnostics/scripts` directory
 #
 # Arg1  Absolute path to directory `03_ExtraMCMCdiagnostics/scripts`
+# Give permissions first, then get absolute path and run the script
+chmod 775 *R
 scripts_dir=$( pwd )
 Rscript MCMC_diagnostics_prior_terminal.R $scripts_dir
 ```
